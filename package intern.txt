@@ -1,0 +1,130 @@
+package intern;
+
+import java.util.ArrayList;
+import java.util.List;
+
+// Enum for different types of accounts
+enum AccountType {
+    SAVINGS,
+    CHECKING
+}
+
+// Class representing a user
+class User {
+    private String username;
+    private String password;
+    // Other user information
+    
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+    
+    // Getter methods for username and password
+    public String getUsername() {
+        return username;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+}
+
+// Class representing an account
+class Account {
+    private int accountId;
+    private User user;
+    private double balance;
+    private AccountType accountType;
+    private List<Transaction> transactions;
+    
+    public Account(int accountId, User user, double balance, AccountType accountType) {
+        this.accountId = accountId;
+        this.user = user;
+        this.balance = balance;
+        this.accountType = accountType;
+        this.transactions = new ArrayList<>();
+    }
+    
+    // Methods for deposit, withdraw, and transaction history
+    public void deposit(double amount) {
+        balance += amount;
+        transactions.add(new Transaction("Deposit", amount));
+    }
+    
+    public void withdraw(double amount) {
+        balance -= amount;
+        transactions.add(new Transaction("Withdrawal", -amount));
+    }
+    
+    public List<Transaction> getTransactionHistory() {
+        return transactions;
+    }
+    
+    // Getter method for account balance
+    public double getBalance() {
+        return balance;
+    }
+}
+
+// Class representing a transaction
+class Transaction {
+    private String type;
+    private double amount;
+    
+    public Transaction(String type, double amount) {
+        this.type = type;
+        this.amount = amount;
+    }
+    
+    // Getter methods for transaction type and amount
+    public String getType() {
+        return type;
+    }
+    
+    public double getAmount() {
+        return amount;
+    }
+}
+
+// Main class
+public class Bank {
+    public static void main(String[] args) {
+        // Sample usage
+        
+        // Create users
+        User user1 = new User("user1", "password1");
+        User user2 = new User("user2", "password2");
+        
+        // Create accounts for users
+        Account account1 = new Account(1, user1, 1000.0, AccountType.SAVINGS);
+        Account account2 = new Account(2, user2, 500.0, AccountType.CHECKING);
+        
+        // Deposit and withdraw funds
+        account1.deposit(500.0);
+        account1.withdraw(200.0);
+        
+        account2.deposit(100.0);
+        account2.withdraw(50.0);
+        
+        // Get transaction history and account balance
+        List<Transaction> transactionHistory1 = account1.getTransactionHistory();
+        double balance1 = account1.getBalance();
+        
+        List<Transaction> transactionHistory2 = account2.getTransactionHistory();
+        double balance2 = account2.getBalance();
+        
+        // Display transaction history and account balance
+        System.out.println("Transaction History for Account 1:");
+        for (Transaction transaction : transactionHistory1) {
+            System.out.println(transaction.getType() + ": " + transaction.getAmount());
+        }
+        System.out.println("Account 1 Balance: " + balance1);
+        
+        System.out.println("\nTransaction History for Account 2:");
+        for (Transaction transaction : transactionHistory2) {
+            System.out.println(transaction.getType() + ": " + transaction.getAmount());
+        }
+        System.out.println("Account 2 Balance: " + balance2);
+    }
+}
